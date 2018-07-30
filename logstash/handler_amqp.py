@@ -117,7 +117,8 @@ class KombuSocket(object):
                                      port=port,
                                      userid=username,
                                      password=password,
-                                     virtual_host=virtual_host)
+                                     virtual_host=virtual_host,
+                                     transport_options={'confirm_publish': True})
 
         # create exchange
         self.exchange = Exchange(exchange, type=exchange_type, durable=durable)
@@ -131,7 +132,8 @@ class KombuSocket(object):
             producer.publish(data,
                              routing_key=self.routing_key,
                              exchange=self.exchange,
-                             declare=[self.exchange])
+                             declare=[self.exchange],
+                             retry=True)
 
     def connect(self):
         self.connection.connect()
